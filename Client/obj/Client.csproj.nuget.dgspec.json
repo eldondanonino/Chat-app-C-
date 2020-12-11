@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app\\Chat app C#\\Client\\Client.csproj": {}
+    "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app C#\\Client\\Client.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app\\Chat app C#\\Client\\Client.csproj": {
+    "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app C#\\Client\\Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app\\Chat app C#\\Client\\Client.csproj",
+        "projectUniqueName": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app C#\\Client\\Client.csproj",
         "projectName": "Client",
-        "projectPath": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app\\Chat app C#\\Client\\Client.csproj",
+        "projectPath": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app C#\\Client\\Client.csproj",
         "packagesPath": "C:\\Users\\Daniil\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app\\Chat app C#\\Client\\obj\\",
+        "outputPath": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app C#\\Client\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Daniil\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app\\Chat app C#\\Shared\\Shared.csproj": {
-                "projectPath": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app\\Chat app C#\\Shared\\Shared.csproj"
+              "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app C#\\Shared\\Shared.csproj": {
+                "projectPath": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app C#\\Shared\\Shared.csproj"
               }
             }
           }
@@ -62,14 +62,14 @@
         }
       }
     },
-    "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app\\Chat app C#\\Shared\\Shared.csproj": {
+    "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app C#\\Shared\\Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app\\Chat app C#\\Shared\\Shared.csproj",
+        "projectUniqueName": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app C#\\Shared\\Shared.csproj",
         "projectName": "Shared",
-        "projectPath": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app\\Chat app C#\\Shared\\Shared.csproj",
+        "projectPath": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app C#\\Shared\\Shared.csproj",
         "packagesPath": "C:\\Users\\Daniil\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app\\Chat app C#\\Shared\\obj\\",
+        "outputPath": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app C#\\Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Daniil\\AppData\\Roaming\\NuGet\\NuGet.Config",

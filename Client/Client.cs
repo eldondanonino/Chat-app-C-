@@ -6,6 +6,11 @@ using System.Text;
 using System.Threading;
 using Shared;
 
+/// <summary>
+/// TODO : create and display a topic list 
+/// each topic has its own .dat containing a log of messages
+/// </summary>
+
 namespace Client
 {
     class Client
@@ -32,7 +37,7 @@ namespace Client
         public void Connect()
         {
             int a = 0;
-            bool firstTime = true, b;
+            bool /*firstTime = true,*/ b;
             while (true)
             {
                 b = false;
@@ -52,7 +57,7 @@ namespace Client
                             System.Environment.Exit(1);
                             break;
                     }
-                    firstTime = false;
+                    //firstTime = false;
                // } 
                 while (a != 2)
                 {
