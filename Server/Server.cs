@@ -12,7 +12,7 @@ using Shared;
 
 /// <summary>
 /// 
-/// Todo : Duplicata check on sign up
+/// Todo : Move all the Login and logout stuff to their own .cs
 /// 
 /// </summary>
 
@@ -20,7 +20,7 @@ namespace Server
 {
     public class Server
     {
-        private int port;
+        private readonly int port;
         public Server(int port)
         {
             this.port = port;
@@ -28,24 +28,26 @@ namespace Server
 
 
         //Server startup
-        public void start()
+        public void Start()
         {
             Console.WriteLine("Server starting up...\n");
             TcpListener l = new TcpListener(new IPAddress(new byte[] { 127, 0, 0, 1 }), port);
             l.Start();
             List<Username> bob = new List<Username>();
 
-            UsersDisplay();
+            UsersDisplay(); //displaying the state the database was left in 
             bob = StartupUsernames();
-            Logout(1, ""); //logging out every user on server start
+            Logout(1, ""); //logging out every user 
 
             //Reset button for the whole "database", be careful 
             /*
             IDfilecreate();
             UsernamesInitialization();
+            TopicServer.TopicFileInitialization();
             */
-            UsersDisplay();
-            
+
+            UsersDisplay(); //checking that everyone is logged out 
+
 
             while (true)
             {
@@ -59,19 +61,19 @@ namespace Server
         //Method getting the username list 
         public static List<Username> StartupUsernames()
         {
-            Console.WriteLine("\n---Getting the username list---\n");
+            Console.WriteLine("---Getting the username list---\n");
             List<Username> usernames = new List<Username>();
             BinaryFormatter bf = new BinaryFormatter();
             FileStream fs = File.OpenRead("./Files/usernames.dat");
 
             usernames = (List<Username>)bf.Deserialize(fs);
-            /*
+            /* //Checking the integrity of the data received
             foreach(Username u in usernames)
             {
                 Console.WriteLine(u._un);
             }*/
             fs.Close();
-            
+
             return usernames;
         }
 
@@ -87,7 +89,7 @@ namespace Server
                 //login all users
                 case 1:
 
-                    Console.WriteLine("\n---Setting all users as logged in---\n");
+                    Console.WriteLine("---Setting all users as logged in---\n");
                     list = (List<Username>)bf.Deserialize(fs);
                     fs.Close();
                     FileStream fs2 = new FileStream("./Files/usernames.dat", FileMode.Create, FileAccess.Write);
@@ -100,7 +102,7 @@ namespace Server
                     break;
                 //login a single user
                 case 2:
-                    Console.WriteLine("\nLogging in user " + username +"\n");
+                    Console.WriteLine("Logging in user " + username + "\n");
                     list = (List<Username>)bf.Deserialize(fs);
                     fs.Close();
                     fs2 = new FileStream("./Files/usernames.dat", FileMode.Create, FileAccess.Write);
@@ -129,9 +131,9 @@ namespace Server
             switch (i)
             {
                 //logout all users
-                case 1: 
+                case 1:
 
-                    Console.WriteLine("\n---Setting all users as logged out---\n");
+                    Console.WriteLine("---Setting all users as logged out---\n");
                     list = (List<Username>)bf.Deserialize(fs);
                     fs.Close();
                     FileStream fs2 = new FileStream("./Files/usernames.dat", FileMode.Create, FileAccess.Write);
@@ -144,7 +146,7 @@ namespace Server
                     break;
                 //logout a single user
                 case 2:
-                    Console.WriteLine("\nLogging out user " + username + "\n");
+                    Console.WriteLine("Logging out user " + username + "\n");
                     list = (List<Username>)bf.Deserialize(fs);
                     fs.Close();
                     fs2 = new FileStream("./Files/usernames.dat", FileMode.Create, FileAccess.Write);
@@ -166,7 +168,7 @@ namespace Server
         //Method displaying the users and their attributes
         public static void UsersDisplay()
         {
-            Console.WriteLine("\n---Displaying the full user list---\n");
+            Console.WriteLine("---Displaying the full user list---\n");
             BinaryFormatter bf = new BinaryFormatter();
             FileStream fs = File.OpenRead("./Files/usernames.dat");
             List<Username> usernames = new List<Username>();
@@ -175,18 +177,19 @@ namespace Server
             {
                 Console.WriteLine(u._un + ", Password : " + u._pwd + ", ID : " + u._id + ", Connection status : " + u._log);
             }
+            Console.WriteLine("\n");
             fs.Close();
         }
 
         //Initializing the username "database" with two new users 
         public static void UsernamesInitialization()
         {
-            Console.WriteLine("\n---Initilaizing the first two users---\n");
+            Console.WriteLine("---Initilaizing the first two users---\n");
             FileStream fs = new FileStream("./Files/usernames.dat", FileMode.Create, FileAccess.Write);
             BinaryFormatter bf = new BinaryFormatter();
 
             List<Username> init = new List<Username>();
-            init.Add(new Username(0,"Dandan", "sudo", false));
+            init.Add(new Username(0, "Dandan", "sudo", false));
             init.Add(new Username(1, "King Gdd", "monke", false));
             bf.Serialize(fs, init);
             fs.Close();
@@ -197,12 +200,12 @@ namespace Server
         public static void UserCreation(string username, string password, List<Username> usernameList, TcpClient comm)
         {
             bool b = true; // true = does not exist in the database yet 
-            
+
             FileStream fs = File.OpenRead("./Files/usernames.dat");
             List<Username> list = new List<Username>();
             BinaryFormatter bf = new BinaryFormatter();
             list = (List<Username>)bf.Deserialize(fs);
-            Console.WriteLine("\nSearching for existing username : " + username + "\n");
+            Console.WriteLine("Searching for existing username : " + username + "\n");
             foreach (Username u in list)
             {
                 //Console.WriteLine("current username : " + u._un);
@@ -245,7 +248,6 @@ namespace Server
             fs.Close();
         }
 
-
         //Creating a unique ID for a user
         public static int IDcreate()
         {
@@ -257,18 +259,18 @@ namespace Server
             fs = File.Create("./Files/ID.dat");
             bf.Serialize(fs, id);
             fs.Close();
-            
+
             return id;
         }
 
         //Checking if the submitted credentials are valid for a login
         public static int CheckCredentials(LoginRequest cred)
         {
-            
+
             int checker = 0;
             BinaryFormatter bf = new BinaryFormatter();
             List<Username> users = StartupUsernames();
-            foreach(Username u in users)
+            foreach (Username u in users)
             {
                 if (checker == 0)
                 {
@@ -285,25 +287,57 @@ namespace Server
                             }
                             else
                                 checker = -1;
-                            
+
                         }
                     }
                 }
             }
-            switch(checker)
+            switch (checker)
             {
-                case -1 : Console.WriteLine("User is already logged in\n");
+                case -1: Console.WriteLine("User is already logged in\n");
                     break;
-                case 0 : Console.WriteLine("Unable to find matching credentials\n");
+                case 0: Console.WriteLine("Unable to find matching credentials\n");
                     break;
-                case 1 : Login(2, cred._un);
+                case 1: Login(2, cred._un);
                     break;
 
             }
             return checker;
         }
 
+        //Waiting for the login request
+        public static LoginRequest ReceiveLogin(TcpClient comm)
+        {   
+            LoginRequest switcher = new LoginRequest("","");
+            BinaryFormatter bf = new BinaryFormatter();
+            int check = 0;
+            Console.WriteLine("---Waiting for the login request---");
+            while (check == 0 || check == -1)
+            {
+                switcher = (LoginRequest)bf.Deserialize(comm.GetStream());
+                Console.WriteLine("\nLogin attempt received server side, credentials : " + switcher._un + ", " + switcher._pwd);
+                check = CheckCredentials(switcher);
+                bf.Serialize(comm.GetStream(), check);
+            }
+            UsersDisplay();
+            return switcher;
+        }
 
+        //waiting for the creation request
+        public static void ReceiveCreationRequest(TcpClient comm)
+        {
+            LoginRequest switcher = new LoginRequest("", "");
+            string user, pwd;
+            BinaryFormatter bf = new BinaryFormatter();
+            Console.WriteLine("---Waiting for the creation request---\n");
+            switcher = (LoginRequest)bf.Deserialize(comm.GetStream());
+
+            user = switcher._un;
+            pwd = switcher._pwd;
+            Console.WriteLine("User Creation initiated server side! received : " + user + "\nPassword : " + pwd);
+            UserCreation(user, pwd, StartupUsernames(), comm);
+            //UsersDisplay();
+        }
 
         class Receiver
         {
@@ -314,63 +348,56 @@ namespace Server
                 comm = s;
             }
 
-            //Extracting the message from the tcp client in order to use the master switch
-            private static string StreamReader(TcpClient comm)
-            {
-                BinaryFormatter bf = new BinaryFormatter();
-
-                string switcher = (string)bf.Deserialize(comm.GetStream());
-                return switcher;
-            }
-
+            //master method of the server receiver
             public void Master()
             {
-                Console.WriteLine("\n---Master method reached---\n");
+                Console.WriteLine("---Master method reached---\n");
+
                 BinaryFormatter bf = new BinaryFormatter();
                 LoginRequest switcher = new LoginRequest("","");
-                int received = 0;
-                int check = 0;
-                string user, pwd;
-                string logout = "";
+                int received = 0, menu = 0;
+
                 while (true)
                 {
                     Console.WriteLine("Waiting for create or login\n");
                     received = (int)bf.Deserialize(comm.GetStream());
+
                     switch (received)
                     {
-                        //Creating a new user
-                        case 1 :
-                            Console.WriteLine("---Waiting for the creation request---\n");
-                            switcher = (LoginRequest)bf.Deserialize(comm.GetStream());
-                                
-                            user = switcher._un;
-                            pwd = switcher._pwd;
-                            Console.WriteLine("\nUser Creation initiated server side! received : " + user + "\nPassword : " + pwd);
-                            UserCreation(user, pwd, StartupUsernames(), comm);
-                            //UsersDisplay();
+                        
+                        case 1 : //Creating a new user
+
+                            ReceiveCreationRequest(comm);
                             break;
 
-                        //logging in an existing account
-                        case 2 :
-                            Console.WriteLine("---Waiting for the login request---\n");
-                            while (check == 0 || check == -1)
+                        case 2 : //logging in an existing account, waiting for the rest
+
+                            switcher = ReceiveLogin(comm); 
+
+                            //user is logged in, main menu
+                            while (menu != -1)
                             {
-                                switcher = (LoginRequest)bf.Deserialize(comm.GetStream());
-                                Console.WriteLine("\nLogin attempt received server side, credentials : " + switcher._un + ", " + switcher._pwd);
-                                check = CheckCredentials(switcher);
-                                bf.Serialize(comm.GetStream(), check);
+                                Console.WriteLine("Waiting for menu command");
+                                menu = (int)bf.Deserialize(comm.GetStream()) - 1;
+
+                                switch(menu)
+                                {
+                                    case -1 : //logout request
+                                        Logout(2, switcher._un);
+                                    break;
+
+                                    case 0: //topic request
+                                        TopicServer.SendTopicList(comm);
+                                        Thread.Sleep(150);
+                                        break;
+
+                                    case 1: //private message request
+                                        break;
+
+                                }
+
                             }
-                            Console.WriteLine("User is logged in");
-                            UsersDisplay();
-                            while (logout.CompareTo("logout") != 0)
-                            {
-                                Console.WriteLine("Waiting for logout");
-                                logout = (string)bf.Deserialize(comm.GetStream());
-                            }
-                            //Console.WriteLine("Logging out user AAAAAAAAAAAAAAAAA " + switcher._un);
-                            Logout(2, switcher._un);
-                            Console.WriteLine("User logged out, stream content : " + logout);
-                            //UsersDisplay();
+                            Console.WriteLine("Getting out of the master switch");
                             break;
 
                         default: 

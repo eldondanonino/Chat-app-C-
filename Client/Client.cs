@@ -24,49 +24,58 @@ namespace Client
             port = p;
         }
 
+        public int Firstpage(bool b)
+        {
+            int a = 0;
+            b = false; //indicator of the success of creation
+            start();
+            while (a != 2) //while not logged in
+            {
+                Console.WriteLine("\nDo you want to create a user?");
+                do
+                {
+                    Console.WriteLine("\n1 : Yes    2 : No, I already have my user \n");
+                    a = Int32.Parse(Console.ReadLine());
+                } while (a != 1 && a != 2);
+                switch (a)
+                {
+                    case 1:
+                        b = RequestCreation();
+                        if (b) 
+                            Console.WriteLine("\nCreation successful! Try to login now!");
+                        else
+                            Console.WriteLine("\nThis username is already taken, try something else");
+                        break;
+                    case 2:
+                        Login();
+                        break;
+                }
+            }
+            Console.WriteLine("\n---You are now in the main page---");
+        return a;
+        }
+
         //main method for client manipulations
         public void Connect()
         {
-            int a = 0;
-            bool b;
+            int a;
+            bool b = false;
             while (true)
             {
-                b = false;
-                start();
-                while (a != 2)
-                {
-                    Console.WriteLine("\nDo you want to create a user?");
-                    do
-                    {
-                        Console.WriteLine("\n1 : Yes    2 : No, I already have my user ");
-                        a = Int32.Parse(Console.ReadLine());
-                    } while (a != 1 && a != 2);
-                    switch (a)
-                    {
-                        case 1:
-                            b = RequestCreation();
-                            if (b) 
-                                Console.WriteLine("\nCreation successful! Try to login now!");
-                            else
-                                Console.WriteLine("\nThis username is already taken, try something else");
-                            break;
-                        case 2:
-                            Login();
-                            break;
-                    }
-                }
-                Console.WriteLine("\n---You are now in the main page---");
+
+                a = Firstpage(b);
+
                 while (a != 0)
                 {
                     do
                     {
-                        Console.WriteLine("\n1 : access topics\n2 : Logout");
+                        Console.WriteLine("\n1 : access topics\n2 : Logout\n");
                         a = Int32.Parse(Console.ReadLine());
                     } while (a != 1 && a != 2);
                     switch (a)
                     {
                         case 1:
-                            Console.WriteLine("Topics soon tm tu connais");
+                            TopicClient.TopicUser(comm);
                             break;
                         case 2:
                             Console.WriteLine("\nLogging out...");
@@ -80,6 +89,9 @@ namespace Client
 
             }
         }
+
+        
+
         //Client connection to the server
         public void start()
         {
@@ -109,7 +121,7 @@ namespace Client
             do
             {
                 un = Console.ReadLine();
-                Console.WriteLine("Read password : " + un);
+                //Console.WriteLine("Read password : " + un);
                 if (un.Length > 32)
                     Console.WriteLine("Your password is too long, 32 max characters");
             } while (un.Length > 32);
@@ -117,7 +129,7 @@ namespace Client
             string pass = un;
             LoginRequest request = new LoginRequest(user, pass);
             //Console.WriteLine("request._pwd : " + request._pwd);
-            Console.WriteLine("\nSending the signup request");
+            //Console.WriteLine("\nSending the signup request");
             bf.Serialize(comm.GetStream(), request);
             //Thread.Sleep(150); //tiny delay just to be sure
             b = (bool)bf.Deserialize(comm.GetStream());
@@ -173,7 +185,7 @@ namespace Client
         public void Logout(string username)
         {
             BinaryFormatter bf = new BinaryFormatter();
-            bf.Serialize(comm.GetStream(), "logout");
+            bf.Serialize(comm.GetStream(), -1);
             Console.WriteLine("You are now logged out of the server! \n");
             //comm.Close(); //How to close the tcp client without nuking the server???
             

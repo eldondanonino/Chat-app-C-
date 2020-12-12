@@ -7,7 +7,7 @@ namespace Server
         static void Main(string[] args)
         {
             Server bob = new Server(1111);
-            bob.start();
+            bob.Start();
         }
     }
 }
