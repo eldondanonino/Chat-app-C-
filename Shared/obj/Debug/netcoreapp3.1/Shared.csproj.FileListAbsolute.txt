@@ -11,3 +11,16 @@ C:\Users\Daniil\Desktop\Projet chat app\Chat app\Shared\obj\Debug\netcoreapp3.1\
 C:\Users\Daniil\Desktop\Projet chat app\Chat app\Shared\obj\Debug\netcoreapp3.1\Shared.dll
 C:\Users\Daniil\Desktop\Projet chat app\Chat app\Shared\obj\Debug\netcoreapp3.1\Shared.pdb
 C:\Users\Daniil\Desktop\Projet chat app\Chat app\Shared\obj\Debug\netcoreapp3.1\Shared.genruntimeconfig.cache
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Shared\bin\Debug\netcoreapp3.1\Shared.exe
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Shared\bin\Debug\netcoreapp3.1\Shared.deps.json
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Shared\bin\Debug\netcoreapp3.1\Shared.runtimeconfig.json
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Shared\bin\Debug\netcoreapp3.1\Shared.runtimeconfig.dev.json
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Shared\bin\Debug\netcoreapp3.1\Shared.dll
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Shared\bin\Debug\netcoreapp3.1\Shared.pdb
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Shared\obj\Debug\netcoreapp3.1\Shared.csprojAssemblyReference.cache
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Shared\obj\Debug\netcoreapp3.1\Shared.AssemblyInfoInputs.cache
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Shared\obj\Debug\netcoreapp3.1\Shared.AssemblyInfo.cs
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Shared\obj\Debug\netcoreapp3.1\Shared.csproj.CoreCompileInputs.cache
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Shared\obj\Debug\netcoreapp3.1\Shared.dll
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Shared\obj\Debug\netcoreapp3.1\Shared.pdb
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Shared\obj\Debug\netcoreapp3.1\Shared.genruntimeconfig.cache

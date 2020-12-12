@@ -37,28 +37,12 @@ namespace Client
         public void Connect()
         {
             int a = 0;
-            bool /*firstTime = true,*/ b;
+            bool b;
             while (true)
             {
                 b = false;
-                //while (firstTime) //checking if it is the first time the while true is run through
-               // {
-                    do
-                    {
-                        Console.WriteLine("1 to connect to server, 2 to leave");
-                        a = Int32.Parse(Console.ReadLine());
-                    } while (a != 1 && a != 2);
-                    switch (a)
-                    {
-                        case 1:
-                            start();
-                            break;
-                        case 2:
-                            System.Environment.Exit(1);
-                            break;
-                    }
-                    //firstTime = false;
-               // } 
+                Console.WriteLine("1 to connect to server, 2 to leave");
+                start();
                 while (a != 2)
                 {
                     Console.WriteLine("Do you want to create a user?");
@@ -71,12 +55,9 @@ namespace Client
                     {
                         case 1:
                             b = RequestCreation();
-                            if (b) //if the creation is successful, consider it as a login
-                            {
-                                a = 2;
-                                Console.WriteLine("Creation successful! Logging in...");
-                            }
-                            if (!b)
+                            if (b) 
+                                Console.WriteLine("\nCreation successful! Try to login now!\n");
+                            else
                                 Console.WriteLine("This username is already taken, try something else");
                             break;
                         case 2:
@@ -102,6 +83,8 @@ namespace Client
             comm = new TcpClient(hostname, port);
             Console.WriteLine("\nConnection established Client Side\n");
         }
+
+        //Request to the server a creation of user
         public bool RequestCreation()
         {
             BinaryFormatter bf = new BinaryFormatter();
@@ -189,6 +172,8 @@ namespace Client
             BinaryFormatter bf = new BinaryFormatter();
             bf.Serialize(comm.GetStream(), "logout");
             Console.WriteLine("You are now logged out of the server! \n");
+            //comm.Close(); //How to close the tcp client without nuking the server???
+            
         }
 
     }

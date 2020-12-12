@@ -28,3 +28,20 @@ C:\Users\Daniil\Desktop\Projet chat app\Chat app\Client\bin\Debug\netcoreapp3.1\
 C:\Users\Daniil\Desktop\Projet chat app\Chat app\Client\bin\Debug\netcoreapp3.1\Shared.dll
 C:\Users\Daniil\Desktop\Projet chat app\Chat app\Client\bin\Debug\netcoreapp3.1\Shared.pdb
 C:\Users\Daniil\Desktop\Projet chat app\Chat app\Client\obj\Debug\netcoreapp3.1\Client.csproj.CopyComplete
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Client\bin\Debug\netcoreapp3.1\Shared.exe
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Client\bin\Debug\netcoreapp3.1\Client.exe
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Client\bin\Debug\netcoreapp3.1\Client.deps.json
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Client\bin\Debug\netcoreapp3.1\Client.runtimeconfig.json
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Client\bin\Debug\netcoreapp3.1\Client.runtimeconfig.dev.json
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Client\bin\Debug\netcoreapp3.1\Client.dll
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Client\bin\Debug\netcoreapp3.1\Client.pdb
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Client\bin\Debug\netcoreapp3.1\Shared.dll
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Client\bin\Debug\netcoreapp3.1\Shared.pdb
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Client\obj\Debug\netcoreapp3.1\Client.csprojAssemblyReference.cache
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Client\obj\Debug\netcoreapp3.1\Client.AssemblyInfoInputs.cache
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Client\obj\Debug\netcoreapp3.1\Client.AssemblyInfo.cs
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Client\obj\Debug\netcoreapp3.1\Client.csproj.CoreCompileInputs.cache
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Client\obj\Debug\netcoreapp3.1\Client.csproj.CopyComplete
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Client\obj\Debug\netcoreapp3.1\Client.dll
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Client\obj\Debug\netcoreapp3.1\Client.pdb
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Client\obj\Debug\netcoreapp3.1\Client.genruntimeconfig.cache
