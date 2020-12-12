@@ -7,8 +7,8 @@ namespace Shared
     [Serializable]
     public class Message
     {
-        string _un;
-        string _con;
+        public string _un;
+        public string _con;
 
         public Message(string username, string content)
         {

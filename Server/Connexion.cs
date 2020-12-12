@@ -98,7 +98,7 @@ namespace Server
                     fs2.Close();
                     break;
             }
-
+            Files.UsersDisplay();
         }
 
         //Checking if the submitted credentials are valid for a login

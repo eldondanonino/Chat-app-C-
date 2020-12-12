@@ -20,18 +20,5 @@ namespace Shared
             _pwd = pwd;
             _log = log;
         }
-        /*
-        public int ID
-        {
-            get { return _id; }
-        }
-        public string UN
-        {
-            get { return _un; }
-            set { _un = value;}
-        }
-        */
-
-
     }
 }

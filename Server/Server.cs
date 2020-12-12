@@ -36,7 +36,6 @@ namespace Server
             List<Username> bob = new List<Username>();
 
             Files.UsersDisplay(); //displaying the state the database was left in 
-            bob = Files.StartupUsernames();
             Connexion.Logout(1, ""); //logging out every user 
 
             //Reset button for the whole "database", be careful 
@@ -46,9 +45,6 @@ namespace Server
             TopicServer.TopicFileInitialization();
             */
 
-            Files.UsersDisplay(); //checking that everyone is logged out 
-
-
             while (true)
             {
                 TcpClient comm = l.AcceptTcpClient();
@@ -57,14 +53,9 @@ namespace Server
             }
         }
 
-
-
-
-
         class Receiver
         {
             private TcpClient comm;
-
             public Receiver(TcpClient s)
             {
                 comm = s;

@@ -23,173 +23,32 @@ namespace Client
             hostname = h;
             port = p;
         }
-
-        public int Firstpage(bool b)
-        {
-            int a = 0;
-            b = false; //indicator of the success of creation
-            start();
-            while (a != 2) //while not logged in
-            {
-                Console.WriteLine("\nDo you want to create a user?");
-                do
-                {
-                    Console.WriteLine("\n1 : Yes    2 : No, I already have my user \n");
-                    a = Int32.Parse(Console.ReadLine());
-                } while (a != 1 && a != 2);
-                switch (a)
-                {
-                    case 1:
-                        b = RequestCreation();
-                        if (b) 
-                            Console.WriteLine("\nCreation successful! Try to login now!");
-                        else
-                            Console.WriteLine("\nThis username is already taken, try something else");
-                        break;
-                    case 2:
-                        Login();
-                        break;
-                }
-            }
-            Console.WriteLine("\n---You are now in the main page---");
-        return a;
-        }
-
-        //main method for client manipulations
-        public void Connect()
-        {
-            int a;
-            bool b = false;
-            while (true)
-            {
-
-                a = Firstpage(b);
-
-                while (a != 0)
-                {
-                    do
-                    {
-                        Console.WriteLine("\n1 : access topics\n2 : Logout\n");
-                        a = Int32.Parse(Console.ReadLine());
-                    } while (a != 1 && a != 2);
-                    switch (a)
-                    {
-                        case 1:
-                            TopicClient.TopicUser(comm);
-                            break;
-                        case 2:
-                            Console.WriteLine("\nLogging out...");
-                            Logout("logout");
-                            //Console.WriteLine("You are now logged out!\n");
-                            a = 0;
-                            break;
-                    }
-                }
-               
-
-            }
-        }
-
-        
-
-        //Client connection to the server
         public void start()
         {
             comm = new TcpClient(hostname, port);
             //Console.WriteLine("\nConnection established Client Side\n");
         }
 
-        //Request to the server a creation of user
-        public bool RequestCreation()
+
+        //main method for client manipulations
+        public void Connect()
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            string un;
-            bool b = false;
-            bf.Serialize(comm.GetStream(), 1);
-            Console.WriteLine("Creating a new user...");
-            Console.WriteLine("Enter your username");
-
-            do
+            int a;
+            while (true)
             {
-                un = Console.ReadLine();
-                if (un.Length > 32)
-                    Console.WriteLine("Your username is too long, 32 max characters");
-            } while (un.Length > 32);
-            string user = un;
+                start();
+                a = Pages.Firstpage(comm);
 
-            Console.WriteLine("Enter your password");
-            do
-            {
-                un = Console.ReadLine();
-                //Console.WriteLine("Read password : " + un);
-                if (un.Length > 32)
-                    Console.WriteLine("Your password is too long, 32 max characters");
-            } while (un.Length > 32);
-
-            string pass = un;
-            LoginRequest request = new LoginRequest(user, pass);
-            //Console.WriteLine("request._pwd : " + request._pwd);
-            //Console.WriteLine("\nSending the signup request");
-            bf.Serialize(comm.GetStream(), request);
-            //Thread.Sleep(150); //tiny delay just to be sure
-            b = (bool)bf.Deserialize(comm.GetStream());
-            //Console.WriteLine("Boolean status : " + b);
-            return b;
-        }
-
-        //Logging in the client
-        public void Login()
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-            string loginUn, loginPwd;
-            int logged;
-            bf.Serialize(comm.GetStream(), 2); //telling the server to initiate a login
-
-            Console.WriteLine("\nPlease enter your username : ");
-            loginUn = Console.ReadLine();
-            Console.WriteLine("Please enter your password : ");
-            loginPwd = Console.ReadLine();
-            LoginRequest request = new LoginRequest(loginUn, loginPwd);
-            bf.Serialize(comm.GetStream(), request);
-            Thread.Sleep(500);
-            logged = (int)bf.Deserialize(comm.GetStream());
-            if (logged == 1)
-            {
-                Console.WriteLine("You are logged in!");
-                return;
-            }
-            else
-            {
-                do
+                while (a != 0)
                 {
-                    
-                    if (logged == 0)
-                        Console.WriteLine("\nWrong Username and/or password, try again\n");
-                    if(logged == -1)
-                        Console.WriteLine("\nYou are already logged in! Check on other clients\n");
+                    a = Pages.Mainpage(comm);
+                }
 
-                    Console.WriteLine("Please enter your username : ");
-                    loginUn = Console.ReadLine();
-                    Console.WriteLine("Please enter your password : ");
-                    loginPwd = Console.ReadLine();
-                    request = new LoginRequest(loginUn, loginPwd);
-                    bf.Serialize(comm.GetStream(), request);
-                    Thread.Sleep(150);
-                    logged = (int)bf.Deserialize(comm.GetStream());
-                } while (logged != 1);
-                Console.WriteLine("You are logged in!");
             }
         }
 
-        //Logging out the client
-        public void Logout(string username)
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-            bf.Serialize(comm.GetStream(), -1);
-            Console.WriteLine("You are now logged out of the server! \n");
-            //comm.Close(); //How to close the tcp client without nuking the server???
-            
-        }
+        
+
 
     }
 }
