@@ -15,23 +15,14 @@ namespace Client
 {
     class Client
     {
-        private string hostname;
-        private int port;
-        private string name;
+        private readonly string hostname;
+        private readonly int port;
         private TcpClient comm;
-        public Client(string h, int p, string s)
+        public Client(string h, int p)
         {
             hostname = h;
             port = p;
-            name = s;
         }
-
-       /// <summary>
-       /// En gros apres un logout si j'enleve la partie connecter le client au serveur, les serialisations se desync jsp pk
-       /// ah si ça marche parceque c'est un tout nouveau client donc il a pas pu se desync, a fix
-       /// 
-       /// TODO : comment deco un tcp client
-       /// </summary>
 
         //main method for client manipulations
         public void Connect()
@@ -41,14 +32,13 @@ namespace Client
             while (true)
             {
                 b = false;
-                Console.WriteLine("1 to connect to server, 2 to leave");
                 start();
                 while (a != 2)
                 {
-                    Console.WriteLine("Do you want to create a user?");
+                    Console.WriteLine("\nDo you want to create a user?");
                     do
                     {
-                        Console.WriteLine("1 : Yes    2 : No, I already have my user ");
+                        Console.WriteLine("\n1 : Yes    2 : No, I already have my user ");
                         a = Int32.Parse(Console.ReadLine());
                     } while (a != 1 && a != 2);
                     switch (a)
@@ -56,9 +46,9 @@ namespace Client
                         case 1:
                             b = RequestCreation();
                             if (b) 
-                                Console.WriteLine("\nCreation successful! Try to login now!\n");
+                                Console.WriteLine("\nCreation successful! Try to login now!");
                             else
-                                Console.WriteLine("This username is already taken, try something else");
+                                Console.WriteLine("\nThis username is already taken, try something else");
                             break;
                         case 2:
                             Login();
@@ -66,13 +56,26 @@ namespace Client
                     }
                 }
                 Console.WriteLine("\n---You are now in the main page---");
-                do
+                while (a != 0)
                 {
-                    Console.WriteLine("Press 0 to logout");
-                    a = Int32.Parse(Console.ReadLine());
-                } while (a != 0);
-                Console.WriteLine("Logging out...");
-                Logout("logout");
+                    do
+                    {
+                        Console.WriteLine("\n1 : access topics\n2 : Logout");
+                        a = Int32.Parse(Console.ReadLine());
+                    } while (a != 1 && a != 2);
+                    switch (a)
+                    {
+                        case 1:
+                            Console.WriteLine("Topics soon tm tu connais");
+                            break;
+                        case 2:
+                            Console.WriteLine("\nLogging out...");
+                            Logout("logout");
+                            //Console.WriteLine("You are now logged out!\n");
+                            a = 0;
+                            break;
+                    }
+                }
                
 
             }
@@ -81,7 +84,7 @@ namespace Client
         public void start()
         {
             comm = new TcpClient(hostname, port);
-            Console.WriteLine("\nConnection established Client Side\n");
+            //Console.WriteLine("\nConnection established Client Side\n");
         }
 
         //Request to the server a creation of user
@@ -114,7 +117,7 @@ namespace Client
             string pass = un;
             LoginRequest request = new LoginRequest(user, pass);
             //Console.WriteLine("request._pwd : " + request._pwd);
-            Console.WriteLine("Sending the signup request");
+            Console.WriteLine("\nSending the signup request");
             bf.Serialize(comm.GetStream(), request);
             //Thread.Sleep(150); //tiny delay just to be sure
             b = (bool)bf.Deserialize(comm.GetStream());
@@ -149,9 +152,9 @@ namespace Client
                 {
                     
                     if (logged == 0)
-                        Console.WriteLine("Wrong Username and/or password, try again");
+                        Console.WriteLine("\nWrong Username and/or password, try again\n");
                     if(logged == -1)
-                        Console.WriteLine("You are already logged in! Check on other clients\n");
+                        Console.WriteLine("\nYou are already logged in! Check on other clients\n");
 
                     Console.WriteLine("Please enter your username : ");
                     loginUn = Console.ReadLine();

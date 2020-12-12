@@ -12,7 +12,7 @@ namespace Client
         static void Main(string[] args)
         {
             Client Robert;
-            Robert = new Client("127.0.0.1", 1111, "test");
+            Robert = new Client("127.0.0.1", 1111);
             Robert.Connect();
         }
     }
