@@ -61,6 +61,7 @@ namespace Server
             List<Topic> topicList = new List<Topic>();
             topicList = (List<Topic>)bf.Deserialize(fs);
             fs.Close();
+            Console.WriteLine("SendTopicList() sending : " + topicList);
             bf.Serialize(comm.GetStream(), topicList);
 
         }
@@ -111,6 +112,64 @@ namespace Server
                     Console.WriteLine(m._un + " : " + m._con);
                 }
             }
+            fs.Close();
+        }
+
+        //Initializing the ID file to 2 (since our two initial users take 2 spots)
+        public static void TopicIDfilecreate()
+        {
+            FileStream fs = new FileStream("./Files/TopicID.dat", FileMode.Create, FileAccess.Write);
+            BinaryFormatter bf = new BinaryFormatter();
+            int id = 3;
+            bf.Serialize(fs, id);
+            fs.Close();
+        }
+
+        //Creating a unique ID for a user
+        public static int TopicIDcreate()
+        {
+            FileStream fs = File.OpenRead("./Files/TopicID.dat");
+            BinaryFormatter bf = new BinaryFormatter();
+            int id = (int)bf.Deserialize(fs);
+            id++;
+            fs.Close();
+            fs = File.Create("./Files/TopicID.dat");
+            bf.Serialize(fs, id);
+            fs.Close();
+
+            return id;
+        }
+
+        //Adding a new topic to the list
+
+        public static void AddTopic(string topicName, TcpClient comm)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            List<Topic> myList = TopicGetter();
+            Topic newTopic;
+            bool check = true;
+            List<Message> m = new List<Message>();
+
+            
+            FileStream fs = new FileStream("./Files/Topics.dat", FileMode.Create, FileAccess.Write);
+            foreach (Topic t in myList)
+            {
+                if (t._name.CompareTo(topicName) == 0) //checking if the topic name is unique 
+                    check = false;
+            }
+            if (check)
+            {
+                newTopic = new Topic(TopicIDcreate(), topicName, m);
+                myList.Add(newTopic);
+                Console.WriteLine("Added new topic : " + newTopic._name + " , ID : " + newTopic._id);
+            }
+            else Console.WriteLine("Already existing topic");
+
+            Console.WriteLine("Writing the topic file");
+            bf.Serialize(fs, myList);
+            
+            Console.WriteLine("Sending the topic list to client");
+            bf.Serialize(comm.GetStream(), myList);
             fs.Close();
         }
     }

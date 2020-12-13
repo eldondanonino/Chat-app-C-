@@ -38,9 +38,10 @@ namespace Server
             Files.UsersDisplay(); //displaying the state the database was left in 
             Connexion.Logout(1, ""); //logging out every user 
 
-            //Reset button for the whole "database", be careful 
+            //Reset button for the whole "database" and various files , be careful
             /*
             Files.IDfilecreate();
+            TopicServer.TopicIDfilecreate();
             Files.UsernamesInitialization();
             TopicServer.TopicFileInitialization();
             */
@@ -87,55 +88,9 @@ namespace Server
 
                         case 2 : //logging in an existing account, waiting for the rest
 
-                            switcher = Connexion.ReceiveLogin(comm); 
+                            
+                            Menu.MainMenu(comm, menu, received, message, s);
 
-                            //user is logged in, main menu
-                            while (menu != -1)
-                            {
-                                Console.WriteLine("Waiting for menu command");
-                                menu = (int)bf.Deserialize(comm.GetStream()) - 1;
-                                Console.WriteLine("stream received : " + menu);
-
-                                switch(menu)
-                                {
-                                    case -1 : //logout request
-                                        Console.WriteLine("Logout request received");
-                                        Connexion.Logout(2, switcher._un);
-                                    break;
-                                        
-                                    case 0: //topic request
-                                        Console.WriteLine("Topic request received");
-                                        TopicServer.SendTopicList(comm);
-                                        while (received != 0)
-                                        {
-                                            Console.WriteLine("Waiting for the topic to be picked");
-                                            received = (int)bf.Deserialize(comm.GetStream());
-                                            Console.WriteLine("Stream received : " + received);
-                                            while (s.CompareTo("") != 0)
-                                            {
-                                                
-                                                Console.WriteLine("Waiting for messages to the topic");
-                                                s = (string)bf.Deserialize(comm.GetStream());
-                                                Console.WriteLine("Stream received : " + s);
-                                                message._un = switcher._un;
-                                                message._con = s;
-                                                Console.WriteLine("Sending the message' " + message._con + "' from user '" + message._un + "'");
-                                                TopicServer.WriteMessageTopic(received, message);
-                                                Console.WriteLine("Sending the updated Topic List");
-                                                TopicServer.SendTopicList(comm);
-                                            }
-                                            s = "init"; //reseting s so that the user can get back in a chat room
-                                            //not getting out of this loop if 0 is input, fix
-                                        }
-                                        break;
-
-                                    case 1: //private message request
-                                        Console.WriteLine("AAAAAAAAAAAAAAAAAA");
-                                        break;
-
-                                }
-
-                            }
                             Console.WriteLine("Getting out of the master switch");
                             break;
 
@@ -146,5 +101,8 @@ namespace Server
                 }
             }
         }
+
+
     }
+
 }

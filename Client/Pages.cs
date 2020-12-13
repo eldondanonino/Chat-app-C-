@@ -17,6 +17,7 @@ namespace Client
             bool b = false; //indicator of the success of creation
             while (a != 2) //while not logged in
             {
+                Console.Clear();
                 Console.WriteLine("\nDo you want to create a user?");
                 do
                 {
@@ -37,7 +38,6 @@ namespace Client
                         break;
                 }
             }
-            Console.WriteLine("\n---You are now in the main page---");
             return a;
         }
 
@@ -46,7 +46,9 @@ namespace Client
             int a;
             do
             {
-                Console.WriteLine("\n1 : access topics\n0 : Logout\n");
+                Console.Clear();
+
+                Console.WriteLine("____________\nMain Page\n____________\n\n1 : Access topics\n0 : Logout\n");
                 a = Int32.Parse(Console.ReadLine());
             } while (a != 1 && a != 0);
             switch (a)

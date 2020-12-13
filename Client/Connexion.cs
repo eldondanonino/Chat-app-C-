@@ -15,11 +15,12 @@ namespace Client
         //Request to the server a creation of user
         public static bool RequestCreation(TcpClient comm)
         {
+            Console.Clear();
             BinaryFormatter bf = new BinaryFormatter();
             string un;
             bool b = false;
             bf.Serialize(comm.GetStream(), 1);
-            Console.WriteLine("Creating a new user...");
+            Console.WriteLine("\nCreating a new user...");
             Console.WriteLine("Enter your username");
 
             do
@@ -41,12 +42,8 @@ namespace Client
 
             string pass = un;
             LoginRequest request = new LoginRequest(user, pass);
-            //Console.WriteLine("request._pwd : " + request._pwd);
-            //Console.WriteLine("\nSending the signup request");
             bf.Serialize(comm.GetStream(), request);
-            //Thread.Sleep(150); //tiny delay just to be sure
             b = (bool)bf.Deserialize(comm.GetStream());
-            //Console.WriteLine("Boolean status : " + b);
             return b;
         }
 
@@ -57,7 +54,7 @@ namespace Client
             string loginUn, loginPwd;
             int logged;
             bf.Serialize(comm.GetStream(), 2); //telling the server to initiate a login
-
+            Console.Clear();
             Console.WriteLine("\nPlease enter your username : ");
             loginUn = Console.ReadLine();
             Console.WriteLine("Please enter your password : ");
@@ -75,6 +72,7 @@ namespace Client
             {
                 do
                 {
+                    Console.Clear();
 
                     if (logged == 0)
                         Console.WriteLine("\nWrong Username and/or password, try again\n");
@@ -97,9 +95,10 @@ namespace Client
         //Logging out the client
         public static void Logout(string username, TcpClient comm)
         {
+            Console.Clear();
             BinaryFormatter bf = new BinaryFormatter();
             bf.Serialize(comm.GetStream(), 0);
-            Console.WriteLine("You are now logged out of the server! \n");
+            Console.WriteLine("\nYou are now logged out of the server! \n");
             //comm.Close(); //How to close the tcp client without nuking the server???
 
         }

@@ -158,6 +158,7 @@ namespace Server
                 switcher = (LoginRequest)bf.Deserialize(comm.GetStream());
                 Console.WriteLine("\nLogin attempt received server side, credentials : " + switcher._un + ", " + switcher._pwd);
                 check = CheckCredentials(switcher);
+                Console.WriteLine("ReceiveLogin() sending stream : " + check);
                 bf.Serialize(comm.GetStream(), check);
             }
             Files.UsersDisplay();
