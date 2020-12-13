@@ -46,15 +46,15 @@ namespace Client
             int a;
             do
             {
-                Console.WriteLine("\n1 : access topics\n2 : Logout\n");
+                Console.WriteLine("\n1 : access topics\n0 : Logout\n");
                 a = Int32.Parse(Console.ReadLine());
-            } while (a != 1 && a != 2);
+            } while (a != 1 && a != 0);
             switch (a)
             {
                 case 1:
                     TopicClient.TopicNavigation(comm);
                     break;
-                case 2:
+                case 0:
                     Console.WriteLine("\nLogging out...");
                     Connexion.Logout("logout", comm);
                     //Console.WriteLine("You are now logged out!\n");

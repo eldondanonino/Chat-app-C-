@@ -92,19 +92,23 @@ namespace Server
                             {
                                 Console.WriteLine("Waiting for menu command");
                                 menu = (int)bf.Deserialize(comm.GetStream()) - 1;
+                                Console.WriteLine("stream received : " + menu);
 
                                 switch(menu)
                                 {
                                     case -1 : //logout request
+                                        Console.WriteLine("Logout request received");
                                         Connexion.Logout(2, switcher._un);
                                     break;
-
+                                        
                                     case 0: //topic request
+                                        Console.WriteLine("Topic request received");
                                         TopicServer.SendTopicList(comm);
                                         Thread.Sleep(150);
                                         break;
 
                                     case 1: //private message request
+                                        Console.WriteLine("AAAAAAAAAAAAAAAAAA");
                                         break;
 
                                 }

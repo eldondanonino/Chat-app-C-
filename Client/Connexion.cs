@@ -98,7 +98,7 @@ namespace Client
         public static void Logout(string username, TcpClient comm)
         {
             BinaryFormatter bf = new BinaryFormatter();
-            bf.Serialize(comm.GetStream(), -1);
+            bf.Serialize(comm.GetStream(), 0);
             Console.WriteLine("You are now logged out of the server! \n");
             //comm.Close(); //How to close the tcp client without nuking the server???
 

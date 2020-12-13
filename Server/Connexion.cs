@@ -79,7 +79,7 @@ namespace Server
                     }
                     bf.Serialize(fs2, list);
                     fs2.Close();
-                    break;
+                    break; 
                 //logout a single user
                 case 2:
                     Console.WriteLine("Logging out user " + username + "\n");
