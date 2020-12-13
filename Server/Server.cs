@@ -68,7 +68,9 @@ namespace Server
 
                 BinaryFormatter bf = new BinaryFormatter();
                 LoginRequest switcher;
+                Message message = new Message("init", "init");
                 int received, menu = 0;
+                string s = "init";
 
                 while (true)
                 {
@@ -104,7 +106,27 @@ namespace Server
                                     case 0: //topic request
                                         Console.WriteLine("Topic request received");
                                         TopicServer.SendTopicList(comm);
-                                        Thread.Sleep(150);
+                                        while (received != 0)
+                                        {
+                                            Console.WriteLine("Waiting for the topic to be picked");
+                                            received = (int)bf.Deserialize(comm.GetStream());
+                                            Console.WriteLine("Stream received : " + received);
+                                            while (s.CompareTo("") != 0)
+                                            {
+                                                
+                                                Console.WriteLine("Waiting for messages to the topic");
+                                                s = (string)bf.Deserialize(comm.GetStream());
+                                                Console.WriteLine("Stream received : " + s);
+                                                message._un = switcher._un;
+                                                message._con = s;
+                                                Console.WriteLine("Sending the message' " + message._con + "' from user '" + message._un + "'");
+                                                TopicServer.WriteMessageTopic(received, message);
+                                                Console.WriteLine("Sending the updated Topic List");
+                                                TopicServer.SendTopicList(comm);
+                                            }
+                                            s = "init"; //reseting s so that the user can get back in a chat room
+                                            //not getting out of this loop if 0 is input, fix
+                                        }
                                         break;
 
                                     case 1: //private message request

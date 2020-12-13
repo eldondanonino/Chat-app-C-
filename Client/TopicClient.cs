@@ -14,49 +14,79 @@ namespace Client
         {
             BinaryFormatter bf = new BinaryFormatter();
             List<Topic> myList = new List<Topic>();
-            int a;
+            int a=-1;
+            string s;
 
             bf.Serialize(comm.GetStream(), 1); //Requesting the display of topics
             myList = (List<Topic>)bf.Deserialize(comm.GetStream());
 
-            DisplayTopics(myList);
-
-            do
+            
+            while(a != 0) //while the user doesnt want to get back to the main page
             {
-                Console.WriteLine("\nWhich topic do you wish to access? (0 to return to the main page)");
-                a = Int32.Parse(Console.ReadLine());
-            } while (a > myList.Count || a < 0);
-            if (a != 0)
-                DisplaySpecificTopic(myList, a);
-            else
-                return;
+                do
+                {
+                    DisplayTopics(myList);
+                    Console.WriteLine("\nWhich topic do you wish to access? (0 to return to the main page)");
+                    a = Int32.Parse(Console.ReadLine());
+                } while (a > myList.Count || a < 0);
+                Console.WriteLine("int received : " + a);
+                bf.Serialize(comm.GetStream(), a);
+
+
+                if (a != 0)
+                {
+                    Console.WriteLine("Displaying the topic " + a);
+                   myList = DisplaySpecificTopic(myList, a, comm);
+                }
+                else return;
+                }
 
         }
         
-        public static void DisplaySpecificTopic(List<Topic> l, int a)
+        public static string WriteMessageTopic(List<Topic> myList, int topicId, TcpClient comm)
         {
-            foreach(Topic t in l)
+            string s; 
+            BinaryFormatter bf = new BinaryFormatter();
+            s = Console.ReadLine();
+            bf.Serialize(comm.GetStream(), s);
+            return s;
+        }
+
+        public static List<Topic> DisplaySpecificTopic(List<Topic> l, int topicId, TcpClient comm)
+        {
+            string s = "hello";
+            BinaryFormatter bf = new BinaryFormatter();
+
+            while (s.CompareTo("") != 0)
             {
-                if(t._id.Equals(a))
+                Console.WriteLine("specific display loop accessed");
+                foreach(Topic t in l)
                 {
-                    DisplayTopicMessages(t);
+                    if (t._id.Equals(topicId))
+                    {
+                        DisplayTopicMessages(t);
+                        s = WriteMessageTopic(l, topicId, comm);
+                        //Console.WriteLine("message received : " + s);
+                    }
                 }
+                l = (List<Topic>)bf.Deserialize(comm.GetStream()); ;
             }
+            return l;
         }
 
         public static void DisplayTopicMessages(Topic t)
         {
-            Console.WriteLine("Welcome to " + t._name + " !\n____________\nMessages :\n____________\n\n ");
+            Console.WriteLine("\n\n---Topic : " + t._name + "---\n____________\nMessages :\n\n ");
             foreach(Message m in t._messages)
             {
                 Console.WriteLine(m._un + " : " + m._con);
             }
-            Console.Write("____________\nWrite a message :");
-            string s = Console.ReadLine();
+            Console.Write("\n>Press [enter] without typing a message to get back to the topic list\n____________\n>Write a message :");
+           
         }
         public static void DisplayTopics(List <Topic> l)
         {
-            Console.WriteLine("\nDisplaying the current list of topics! \n");
+            Console.WriteLine("\n____________\nDisplaying the current list of topics! \n____________\n");
             foreach(Topic t in l)
             {
                 Console.WriteLine(t._id + " : " + t._name + "(" + t._messages.Count + " messages)");
