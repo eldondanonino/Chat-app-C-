@@ -9,13 +9,6 @@ using System.Threading;
 using Shared;
 
 
-
-/// <summary>
-/// 
-/// Todo : Move all the Login and logout stuff to their own .cs
-/// 
-/// </summary>
-
 namespace Server
 {
     public class Server
@@ -36,13 +29,14 @@ namespace Server
             List<Username> bob = new List<Username>();
 
             Files.UsersDisplay(); //displaying the state the database was left in 
-            Connexion.Logout(1, ""); //logging out every user 
+            Connexion.Logout(1, ""); //logging out every user for startup
 
             //Reset button for the whole "database" and various files , be careful
             /*
             Files.IDfilecreate();
             TopicServer.TopicIDfilecreate();
             Files.UsernamesInitialization();
+            Files.PMfilecreate();
             TopicServer.TopicFileInitialization();
             */
 
@@ -68,7 +62,6 @@ namespace Server
                 Console.WriteLine("---Master method reached---\n");
 
                 BinaryFormatter bf = new BinaryFormatter();
-                LoginRequest switcher;
                 Message message = new Message("init", "init");
                 int received, menu = 0;
                 string s = "init";
@@ -87,7 +80,6 @@ namespace Server
                             break;
 
                         case 2 : //logging in an existing account, waiting for the rest
-
                             
                             Menu.MainMenu(comm, menu, received, message, s);
 

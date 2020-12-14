@@ -128,6 +128,53 @@ namespace Server
             fs.Close();
         }
 
+        //Initializing the PM file 
+        public static void PMfilecreate()
+        {
+            FileStream fs = new FileStream("./Files/PM.dat", FileMode.Create, FileAccess.Write);
+            BinaryFormatter bf = new BinaryFormatter();
+            List<Message> messages = new List<Message>();
+            Message m = new Message("Dandan", "This is the first private message");
+            messages.Add(m);
+            PrivateMessage pm = new PrivateMessage("Dandan", "King Gdd", messages);
+            List<PrivateMessage> myList = new List<PrivateMessage>();
+            myList.Add(pm);
+            bf.Serialize(fs, myList);
+            fs.Close();
+        }
+
+
+        public static List<PrivateMessage> PMlistGetter()
+        {
+            Console.WriteLine("---Getting the PM list---\n");
+            List<PrivateMessage> myList = new List<PrivateMessage>();
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream fs = File.OpenRead("./Files/PM.dat");
+
+            myList = (List<PrivateMessage>)bf.Deserialize(fs);
+            fs.Close();
+
+            return myList;
+        }
+
+        public static void PMcreate(string un1, string un2, TcpClient comm )
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            List<Message> pm = new List<Message>();
+            PrivateMessage newPM = new PrivateMessage(un1, un2, pm);
+            List<PrivateMessage> myList = PMlistGetter();
+            myList.Add(newPM);
+            FileStream fs = new FileStream("./Files/PM.dat", FileMode.Create, FileAccess.Write);
+            bf.Serialize(fs, myList);
+            fs.Close();
+        }
+
+        public static void PMsender(TcpClient comm)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            bf.Serialize(comm.GetStream(), PMlistGetter());
+        }
+
 
     }
 }

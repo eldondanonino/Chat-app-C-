@@ -40,7 +40,7 @@ namespace Server
                             Console.WriteLine("Waiting for the topic to be picked");
                             received = (int)bf.Deserialize(comm.GetStream());
                             Console.WriteLine("Stream received : " + received);
-                            while (s.CompareTo("") != 0 && received != 0 && received != -1)
+                            while (s.CompareTo("") != 0 && received != 0 && received != -1) //empty message to exit the topic, 0 to exit the topic list, -1 to create a topic
                             {
 
                                 Console.WriteLine("Waiting for messages to the topic");
@@ -65,7 +65,20 @@ namespace Server
                         break;
 
                     case 1: //private message request
-                        Console.WriteLine("AAAAAAAAAAAAAAAAAA");
+                        
+                        Console.WriteLine("Private message request received, sending the users pms");
+                        PrivateMessageServer.SendUsersPM(switcher, comm);
+                        while (s.CompareTo("") != 0)
+                        {
+                            Console.WriteLine("Waiting for correspondant");
+                            s = (string)bf.Deserialize(comm.GetStream());
+                            PrivateMessageServer.AccessPM(comm, s, switcher._un);
+                            if(s.CompareTo("") !=0)
+                            {
+                                PrivateMessageServer.WritePM(comm);
+                            }
+                        }
+
                         break;
 
                 }

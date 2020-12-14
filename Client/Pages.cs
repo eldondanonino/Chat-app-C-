@@ -48,13 +48,16 @@ namespace Client
             {
                 Console.Clear();
 
-                Console.WriteLine("____________\nMain Page\n____________\n\n1 : Access topics\n0 : Logout\n");
+                Console.WriteLine("____________\nMain Page\n____________\n\n1 : Access topics\n2 : Access Private Messages\n0 : Logout\n");
                 a = Int32.Parse(Console.ReadLine());
-            } while (a != 1 && a != 0);
+            } while (a<0 || a>2);
             switch (a)
             {
                 case 1:
                     TopicClient.TopicNavigation(comm);
+                    break;
+                case 2:
+                    PMClient.PMNavigation(comm);
                     break;
                 case 0:
                     Console.WriteLine("\nLogging out...");

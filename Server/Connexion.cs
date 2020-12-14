@@ -168,7 +168,7 @@ namespace Server
         //waiting for the creation request
         public static void ReceiveCreationRequest(TcpClient comm)
         {
-            LoginRequest switcher = new LoginRequest("", "");
+            LoginRequest switcher = new LoginRequest("","");
             string user, pwd;
             BinaryFormatter bf = new BinaryFormatter();
             Console.WriteLine("---Waiting for the creation request---\n");
@@ -180,7 +180,6 @@ namespace Server
             Files.UserCreation(user, pwd, Files.StartupUsernames(), comm);
             //UsersDisplay();
         }
-
 
     }
 }
