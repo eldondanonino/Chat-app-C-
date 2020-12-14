@@ -32,8 +32,8 @@ namespace Server
         public static void AccessPM(TcpClient comm, string correspondant, string user)
         {
             List<PrivateMessage> myList = Files.PMlistGetter();
-           // List<Message> l = new List<Message>()
-            PrivateMessage empty = new PrivateMessage("","", new List<Message>()); 
+            // List<Message> l = new List<Message>()
+            List<Message> empty = new List<Message>();
             BinaryFormatter bf = new BinaryFormatter();
             bool found = false;
 

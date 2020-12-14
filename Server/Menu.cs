@@ -67,6 +67,7 @@ namespace Server
                     case 1: //private message request
                         PrivateMessage empty = new PrivateMessage("", "", new List<Message>());
                         string msg = "a";
+                        bool check = true;
                         Console.WriteLine("Private message request received, sending the users pms");
                         PrivateMessageServer.SendUsersPM(switcher, comm);
                         while (s.CompareTo("") != 0)
@@ -80,13 +81,18 @@ namespace Server
                                 do
                                 {
                                     PrivateMessageServer.AccessPM(comm, s, switcher._un);
-                                    Console.WriteLine("Reached writepm");
-                                    PrivateMessageServer.WritePM(comm, switcher._un, s);
-                                    msg = (string)bf.Deserialize(comm.GetStream());
-                                    //PrivateMessageServer.AccessPM(comm, s, switcher._un);
-
-                                } while (msg != "");
-
+                                    Console.WriteLine("reached check");
+                                    check = (bool)bf.Deserialize(comm.GetStream());
+                                    Console.WriteLine(check);
+                                    if (check)
+                                    {
+                                        Console.WriteLine("Reached writepm");
+                                        PrivateMessageServer.WritePM(comm, switcher._un, s);
+                                        msg = (string)bf.Deserialize(comm.GetStream());
+                                         //PrivateMessageServer.AccessPM(comm, s, switcher._un);
+                                    }else s = (string)bf.Deserialize(comm.GetStream());
+                                } while (msg != "" && s !="");
+                                if(s!="") //if the user couldnt find a chat and left immediatly this situation applies
                                 s = (string)bf.Deserialize(comm.GetStream());
                             }
                             //else empty = (PrivateMessage)bf.Deserialize(comm.GetStream()); //catching an empty pm stream if the find fails

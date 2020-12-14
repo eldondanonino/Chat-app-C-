@@ -29,12 +29,14 @@ namespace Client
                     bf.Serialize(comm.GetStream(), correspondant);
                     messageList = (List<Message>)bf.Deserialize(comm.GetStream());
                     Console.Clear();
-                    if (messageList == empty)
+                    if (messageList.Count == 0)
                     {
                         Console.WriteLine("Sorry you dont have a conversation with this user, try requesting a private chat first!");
+                        bf.Serialize(comm.GetStream(), false);
                     }
                     else
                     {
+                        bf.Serialize(comm.GetStream(), true);
                         do
                         {
 
