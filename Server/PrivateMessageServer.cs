@@ -22,7 +22,7 @@ namespace Server
             {
                 if(pm.un1 == switcher._un || pm.un2 == switcher._un)
                 {
-                    Console.WriteLine("Found a matching conversation between " + pm.un1 + " and " + pm.un2 + ", adding it to the list");
+                    Console.WriteLine("Found a matching conversation between " + pm.un1 + " and " + pm.un2 + ", adding it to the list\n");
                     sentlist.Add(pm);
                 }
             }
@@ -32,6 +32,8 @@ namespace Server
         public static void AccessPM(TcpClient comm, string correspondant, string user)
         {
             List<PrivateMessage> myList = Files.PMlistGetter();
+           // List<Message> l = new List<Message>()
+            PrivateMessage empty = new PrivateMessage("","", new List<Message>()); 
             BinaryFormatter bf = new BinaryFormatter();
             bool found = false;
 
@@ -46,17 +48,44 @@ namespace Server
             }
             if(!found)
             {
-                bf.Serialize(comm.GetStream(), myList);
+                Console.WriteLine("Correspondance not found, sending empty stream");
+                bf.Serialize(comm.GetStream(), empty);
             }
 
 
         }
 
-        public static void WritePM(TcpClient comm)
-        { 
+        public static void WritePM(TcpClient comm, string user, string correspondant)
+        {
+            Console.WriteLine("WRITE PM");
             BinaryFormatter bf = new BinaryFormatter();
             string message =(string) bf.Deserialize(comm.GetStream());
-            Console.WriteLine("Message received : " + message); //todo : add this message to the list of message from this conv
+            Console.WriteLine("Message received : " + message);
+            if (message.CompareTo("") != 0)
+            {
+                Message newmessage = new Message(user, message);
+                List<PrivateMessage> pml = Files.PMlistGetter();
+                foreach (PrivateMessage p in pml)
+                {
+                    if ((p.un1.CompareTo(user) == 0 && p.un2.CompareTo(correspondant) == 0) || (p.un2.CompareTo(user) == 0 && p.un1.CompareTo(correspondant) == 0))
+                    {
+                        p.pm.Add(newmessage); //adding the message received to the list of message where both usernames coincide
+                        Console.WriteLine("added message to the list");
+                    }
+                }
+                Console.WriteLine("Adding the new message to the file");
+                Files.PMlistSetter(pml);
+                Console.WriteLine("Sending to stream message : " + message);
+                bf.Serialize(comm.GetStream(), message);
+                
+            }
+            else
+            {
+                {
+                    Console.WriteLine("Sending to stream message : " + message);
+                    bf.Serialize(comm.GetStream(), message);
+                }
+            }
         }
 
     }

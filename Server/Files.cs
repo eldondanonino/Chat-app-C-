@@ -143,10 +143,18 @@ namespace Server
             fs.Close();
         }
 
+        public static void PMlistSetter(List<PrivateMessage> l)
+        {
+            Console.WriteLine("Writing on the PM file");
+            FileStream fs = new FileStream("./Files/PM.dat", FileMode.Create, FileAccess.Write);
+            BinaryFormatter bf = new BinaryFormatter();
+            bf.Serialize(fs, l);
+            fs.Close();
+        }
 
         public static List<PrivateMessage> PMlistGetter()
         {
-            Console.WriteLine("---Getting the PM list---\n");
+            Console.WriteLine("Getting the PM list\n");
             List<PrivateMessage> myList = new List<PrivateMessage>();
             BinaryFormatter bf = new BinaryFormatter();
             FileStream fs = File.OpenRead("./Files/PM.dat");

@@ -40,8 +40,7 @@ namespace Client
             }
             return a;
         }
-
-        public static int Mainpage(TcpClient comm)
+        public static int Menu()
         {
             int a;
             do
@@ -50,7 +49,12 @@ namespace Client
 
                 Console.WriteLine("____________\nMain Page\n____________\n\n1 : Access topics\n2 : Access Private Messages\n0 : Logout\n");
                 a = Int32.Parse(Console.ReadLine());
-            } while (a<0 || a>2);
+            } while (a < 0 || a > 2);
+            return a;
+        }
+        public static int Mainpage(TcpClient comm)
+        {
+            int a = Menu();
             switch (a)
             {
                 case 1:

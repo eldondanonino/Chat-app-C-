@@ -24,7 +24,7 @@ namespace Server
                 Console.WriteLine("Waiting for menu command");
                 menu = (int)bf.Deserialize(comm.GetStream()) - 1;
                 Console.WriteLine("stream received : " + menu);
-
+                
                 switch (menu)
                 {
                     case -1: //logout request
@@ -65,20 +65,35 @@ namespace Server
                         break;
 
                     case 1: //private message request
-                        
+                        PrivateMessage empty = new PrivateMessage("", "", new List<Message>());
+                        string msg = "a";
                         Console.WriteLine("Private message request received, sending the users pms");
                         PrivateMessageServer.SendUsersPM(switcher, comm);
                         while (s.CompareTo("") != 0)
                         {
+                            //add display of all curent pms here
                             Console.WriteLine("Waiting for correspondant");
                             s = (string)bf.Deserialize(comm.GetStream());
-                            PrivateMessageServer.AccessPM(comm, s, switcher._un);
-                            if(s.CompareTo("") !=0)
+                            
+                            if (s.CompareTo("") != 0)
                             {
-                                PrivateMessageServer.WritePM(comm);
-                            }
-                        }
+                                do
+                                {
+                                    PrivateMessageServer.AccessPM(comm, s, switcher._un);
+                                    Console.WriteLine("Reached writepm");
+                                    PrivateMessageServer.WritePM(comm, switcher._un, s);
+                                    msg = (string)bf.Deserialize(comm.GetStream());
+                                    //PrivateMessageServer.AccessPM(comm, s, switcher._un);
 
+                                } while (msg != "");
+
+                                s = (string)bf.Deserialize(comm.GetStream());
+                            }
+                            //else empty = (PrivateMessage)bf.Deserialize(comm.GetStream()); //catching an empty pm stream if the find fails
+
+                        }
+                        received = 0;
+                        s = "init";
                         break;
 
                 }

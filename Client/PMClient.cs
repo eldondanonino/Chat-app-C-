@@ -21,30 +21,41 @@ namespace Client
             myPrivateMessages = (List<PrivateMessage>)bf.Deserialize(comm.GetStream());
             do
             {
+                //add display of all current pms here
                 Console.WriteLine("\n(Write new message to request a private chat with a user!\nSend a message to : ");
                 correspondant = Console.ReadLine();
-                bf.Serialize(comm.GetStream(), correspondant);
-                messageList = (List<Message>)bf.Deserialize(comm.GetStream());
-                Console.Clear();
-                if(messageList == empty)
+                if (correspondant.CompareTo("") != 0)
                 {
-                    Console.WriteLine("Sorry you dont have a conversation with this user, try requesting a private chat first!");
-                }
-                else
-                {
-                    do
+                    bf.Serialize(comm.GetStream(), correspondant);
+                    messageList = (List<Message>)bf.Deserialize(comm.GetStream());
+                    Console.Clear();
+                    if (messageList == empty)
                     {
-                        Console.WriteLine("Private chat between you and " + correspondant);
-                        foreach (Message m in messageList)
-                            Console.WriteLine(m._un + " : " + m._con);
-                        Console.Write("(press enter on an empty message to exit the conversation)\n>write a message : ");
-                        s = Console.ReadLine();
-                        bf.Serialize(comm.GetStream(), s);
-                    } while (s.CompareTo("") != 0);
+                        Console.WriteLine("Sorry you dont have a conversation with this user, try requesting a private chat first!");
+                    }
+                    else
+                    {
+                        do
+                        {
+
+                            Console.WriteLine("Private chat between you and " + correspondant);
+                            foreach (Message m in messageList)
+                                Console.WriteLine(m._un + " : " + m._con);
+                            Console.Write("(press enter on an empty message to exit the conversation)\n>write a message : ");
+                            s = Console.ReadLine();
+                            Console.WriteLine("Sending message " + s + " to server");
+                            bf.Serialize(comm.GetStream(), s);
+                            //messageList = (List<Message>)bf.Deserialize(comm.GetStream());
+                        } while (s.CompareTo("") != 0);
+                        //Console.WriteLine("AAAAAAAAA " + correspondant);
+                        correspondant = (string)bf.Deserialize(comm.GetStream());
+                        bf.Serialize(comm.GetStream(), correspondant);
+                    }
+                    //Console.WriteLine("AAAAAAAAA " + correspondant);
                 }
-
+                else bf.Serialize(comm.GetStream(), correspondant);
             } while (correspondant.CompareTo("") != 0);
-
+            Console.WriteLine("Empty correspondant, going back to main menu");
         }
 
 
