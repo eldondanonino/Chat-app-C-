@@ -1,0 +1,8 @@
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Executables\Shared.exe
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Executables\Client.exe
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Executables\Client.dll
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Executables\Client.deps.json
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Executables\Client.runtimeconfig.json
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Executables\Client.pdb
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Executables\Shared.dll
+C:\Users\Daniil\Desktop\Projet chat app\Chat app C#\Executables\Shared.pdb
