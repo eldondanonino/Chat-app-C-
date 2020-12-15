@@ -15,12 +15,12 @@ namespace Server
         public static void MainMenu(TcpClient comm, int menu, int received, Message message, string s)
         {
             LoginRequest switcher;
-            switcher = Connexion.ReceiveLogin(comm);
+            switcher = Connexion.ReceiveLogin(comm); //Our current user
             BinaryFormatter bf = new BinaryFormatter();
 
-            while (menu != -1)
+            while (menu != -1) //while not logged out
             {
-                received = -10;
+                received = -10; //initializing the topic command to a non existing value for future use
                 Console.WriteLine("Waiting for menu command");
                 menu = (int)bf.Deserialize(comm.GetStream()) - 1;
                 Console.WriteLine("stream received : " + menu);
@@ -42,25 +42,23 @@ namespace Server
                             Console.WriteLine("Stream received : " + received);
                             while (s.CompareTo("") != 0 && received != 0 && received != -1) //empty message to exit the topic, 0 to exit the topic list, -1 to create a topic
                             {
-
                                 Console.WriteLine("Waiting for messages to the topic");
                                 s = (string)bf.Deserialize(comm.GetStream());
                                 Console.WriteLine("Stream received : " + s);
-                                message._un = switcher._un;
-                                message._con = s;
+                                message._un = switcher._un; //name of the sender
+                                message._con = s;           //content of the message
                                 Console.WriteLine("Sending the message' " + message._con + "' from user '" + message._un + "'");
                                 TopicServer.WriteMessageTopic(received, message);
                                 Console.WriteLine("Sending the updated Topic List");
-                                TopicServer.SendTopicList(comm);
+                                TopicServer.SendTopicList(comm); //send an event and thread listener (check the calculator)
                             }
-                            if(received == -1)
+                            if(received == -1) //Adding a new topic
                             {
-                                string name = (string)bf.Deserialize(comm.GetStream());
+                                string name = (string)bf.Deserialize(comm.GetStream()); //deserializing the name sent by the client
                                 TopicServer.AddTopic(name, comm);
                             }
 
                             s = "init"; //reseting s so that the user can get back in a chat room
-                                        //not getting out of this loop if 0 is input, fix
                         }
                         break;
 
@@ -68,9 +66,10 @@ namespace Server
                         PrivateMessage empty = new PrivateMessage("", "", new List<Message>());
                         string msg = "a";
                         bool check = true;
+
                         Console.WriteLine("Private message request received, sending the users pms");
-                        PrivateMessageServer.SendUsersPM(switcher, comm);
-                        while (s.CompareTo("") != 0)
+                        PrivateMessageServer.SendUsersPM(switcher, comm); //sending to the client the list of its chat rooms
+                        while (s.CompareTo("") != 0) //While not exiting
                         {
                             //add display of all curent pms here
                             Console.WriteLine("Waiting for correspondant");
@@ -78,22 +77,24 @@ namespace Server
                             Console.WriteLine("s received : " + s);
                             if (s.CompareTo("") != 0)
                             {
-                                if (s.CompareTo("new message") == 0)
+                                if (s.CompareTo("new message") == 0) //if "new message" is received, a PM request is initialized
                                 {
                                     Console.WriteLine("Initiating new pm room");
                                     PrivateMessageServer.NewPM(comm, switcher._un);
+                                    Console.WriteLine("Sending the updated pm list");
+                                    //PrivateMessageServer.AccessPM(comm, s, switcher._un);
                                 }
-                                else
+                                else //regular PM
                                 {
                                     do
                                     {
                                         PrivateMessageServer.AccessPM(comm, s, switcher._un);
-                                        Console.WriteLine("reached check");
-                                        check = (bool)bf.Deserialize(comm.GetStream());
+                                        Console.Write("reached check : ");
+                                        check = (bool)bf.Deserialize(comm.GetStream()); //If false is received, the conversation doesnt exist
                                         Console.WriteLine(check);
                                         do
                                         {
-                                            if (check)
+                                            if (check) //if the room exists, initiate the message writing
                                             {
                                                 Console.WriteLine("Reached writepm");
                                                 PrivateMessageServer.WritePM(comm, switcher._un, s);
@@ -101,16 +102,16 @@ namespace Server
                                                 Console.WriteLine("Received msg : " + msg);
                                                 PrivateMessageServer.AccessPM(comm, s, switcher._un);
                                             }
-                                            else s = (string)bf.Deserialize(comm.GetStream());
+                                            else s = (string)bf.Deserialize(comm.GetStream()); //else getting the user client wants to chat to after getting denied
                                         } while (msg.CompareTo("") != 0);
-                                    } while (msg != "" && s != "");
+                                    } while (msg != "" && s != ""); //While not fully exited
                                 }
                             }
                             //else empty = (PrivateMessage)bf.Deserialize(comm.GetStream()); //catching an empty pm stream if the find fails
 
                         }
-                        received = 0;
-                        s = "init";
+                        received = 0; //resetting variables for the master loop
+                        s = "init";   //
                         break;
 
                 }

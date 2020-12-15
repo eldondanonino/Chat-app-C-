@@ -31,14 +31,14 @@ namespace Client
                 bf.Serialize(comm.GetStream(), a);
 
 
-                if (a != 0 && a != -1)
+                if (a != 0 && a != -1) //Regular topic display
                 {
-                    Console.WriteLine("Displaying the topic " + a);
+                   Console.WriteLine("Displaying the topic " + a);
                    myList = DisplaySpecificTopic(myList, a, comm);
                 }
-                if (a == 0)
+                if (a == 0) //Exit
                     return;
-                if (a == -1)
+                if (a == -1) //Topic creation
                 {
                     myList = CreateNewTopic(comm);
                 }
@@ -51,10 +51,11 @@ namespace Client
             Console.Clear();
             BinaryFormatter bf = new BinaryFormatter();
             List<Topic> myList;
+
             Console.WriteLine("\nWhat is the title of your new topic?");
             string s = Console.ReadLine();
-            bf.Serialize(comm.GetStream(), s);
-            myList = (List<Topic>)bf.Deserialize(comm.GetStream());
+            bf.Serialize(comm.GetStream(), s); //sending the name to be checked if it exists
+            myList = (List<Topic>)bf.Deserialize(comm.GetStream()); //receiving the newly created topic
             Console.WriteLine("Topic created!");
             return myList;
         }

@@ -23,6 +23,7 @@ namespace Client
             do
             {   
                 Console.Clear();
+
                 Console.WriteLine("Your private messages : ");
                 foreach(PrivateMessage pm in myPrivateMessages)
                 {
@@ -39,6 +40,8 @@ namespace Client
                         Console.WriteLine("With whom do you want to initiate a private chat?");
                         correspondant = Console.ReadLine();
                         bf.Serialize(comm.GetStream(), correspondant);
+                        //Thread.Sleep(500);
+                        //myPrivateMessages = (List<PrivateMessage>)bf.Deserialize(comm.GetStream());
                     }
                     else
                     {
@@ -66,11 +69,7 @@ namespace Client
                                 string msg = (string)bf.Deserialize(comm.GetStream());
                                 bf.Serialize(comm.GetStream(), msg);
                                 messageList =(List<Message>)bf.Deserialize(comm.GetStream());
-                                //bf.Serialize(comm.GetStream(), s);
-;                                //messageList = (List<Message>)bf.Deserialize(comm.GetStream());
                             } while (s.CompareTo("") != 0);
-                            //Console.WriteLine("AAAAAAAAA " + correspondant);
-                            //s = (string)bf.Deserialize(comm.GetStream());
                             
                         }
                         //Console.WriteLine("AAAAAAAAA " + correspondant);

@@ -11,6 +11,9 @@ using Shared;
 /// each topic has its own .dat containing a log of messages
 /// </summary>
 
+
+//multithread
+
 namespace Client
 {
     class Client

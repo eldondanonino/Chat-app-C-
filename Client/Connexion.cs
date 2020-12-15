@@ -61,7 +61,7 @@ namespace Client
             loginPwd = Console.ReadLine();
             LoginRequest request = new LoginRequest(loginUn, loginPwd);
             bf.Serialize(comm.GetStream(), request);
-            Thread.Sleep(500);
+            //Thread.Sleep(500);
             logged = (int)bf.Deserialize(comm.GetStream());
             if (logged == 1)
             {
@@ -85,7 +85,7 @@ namespace Client
                     loginPwd = Console.ReadLine();
                     request = new LoginRequest(loginUn, loginPwd);
                     bf.Serialize(comm.GetStream(), request);
-                    Thread.Sleep(150);
+                    //Thread.Sleep(150);
                     logged = (int)bf.Deserialize(comm.GetStream());
                 } while (logged != 1);
                 Console.WriteLine("You are logged in!");
