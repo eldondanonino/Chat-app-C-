@@ -75,25 +75,36 @@ namespace Server
                             //add display of all curent pms here
                             Console.WriteLine("Waiting for correspondant");
                             s = (string)bf.Deserialize(comm.GetStream());
-                            
+                            Console.WriteLine("s received : " + s);
                             if (s.CompareTo("") != 0)
                             {
-                                do
+                                if (s.CompareTo("new message") == 0)
                                 {
-                                    PrivateMessageServer.AccessPM(comm, s, switcher._un);
-                                    Console.WriteLine("reached check");
-                                    check = (bool)bf.Deserialize(comm.GetStream());
-                                    Console.WriteLine(check);
-                                    if (check)
+                                    Console.WriteLine("Initiating new pm room");
+                                    PrivateMessageServer.NewPM(comm, switcher._un);
+                                }
+                                else
+                                {
+                                    do
                                     {
-                                        Console.WriteLine("Reached writepm");
-                                        PrivateMessageServer.WritePM(comm, switcher._un, s);
-                                        msg = (string)bf.Deserialize(comm.GetStream());
-                                         //PrivateMessageServer.AccessPM(comm, s, switcher._un);
-                                    }else s = (string)bf.Deserialize(comm.GetStream());
-                                } while (msg != "" && s !="");
-                                if(s!="") //if the user couldnt find a chat and left immediatly this situation applies
-                                s = (string)bf.Deserialize(comm.GetStream());
+                                        PrivateMessageServer.AccessPM(comm, s, switcher._un);
+                                        Console.WriteLine("reached check");
+                                        check = (bool)bf.Deserialize(comm.GetStream());
+                                        Console.WriteLine(check);
+                                        do
+                                        {
+                                            if (check)
+                                            {
+                                                Console.WriteLine("Reached writepm");
+                                                PrivateMessageServer.WritePM(comm, switcher._un, s);
+                                                msg = (string)bf.Deserialize(comm.GetStream());
+                                                Console.WriteLine("Received msg : " + msg);
+                                                PrivateMessageServer.AccessPM(comm, s, switcher._un);
+                                            }
+                                            else s = (string)bf.Deserialize(comm.GetStream());
+                                        } while (msg.CompareTo("") != 0);
+                                    } while (msg != "" && s != "");
+                                }
                             }
                             //else empty = (PrivateMessage)bf.Deserialize(comm.GetStream()); //catching an empty pm stream if the find fails
 

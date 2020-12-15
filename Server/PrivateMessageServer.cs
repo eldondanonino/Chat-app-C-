@@ -55,6 +55,40 @@ namespace Server
 
         }
 
+        public static void NewPM(TcpClient comm, string user)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            List<PrivateMessage> lpm = Files.PMlistGetter();
+            List<Message> l = new List<Message>();
+            Message firstmessage = new Message("server", "This is the start of your conversation! Send a message!");
+            bool check = false;
+
+            Console.WriteLine("waiting for the username");
+            string username = (string)bf.Deserialize(comm.GetStream());
+            foreach(PrivateMessage pm in lpm)
+            {
+                if(pm.un1.CompareTo(user) == 0 && pm.un2.CompareTo(username) == 0)
+                {
+                        Console.WriteLine("Already existing pm");
+                        check = true; //found existing pms
+                }
+                if (pm.un2.CompareTo(user) == 0 && pm.un1.CompareTo(username) == 0)
+                {
+                        Console.WriteLine("Already existing pm");
+                        check = true; //found existing pms
+                }
+            }
+            if(!check)
+            {
+                l.Add(firstmessage);
+                PrivateMessage newpm = new PrivateMessage(user, username, l);
+                lpm.Add(newpm);
+                Console.WriteLine("Added the new pm to the list");
+            }
+            Files.PMlistSetter(lpm);
+
+        }
+
         public static void WritePM(TcpClient comm, string user, string correspondant)
         {
             Console.WriteLine("WRITE PM");
