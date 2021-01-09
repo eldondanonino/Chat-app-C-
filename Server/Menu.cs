@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading;
 using Shared;
 
 namespace Server
 {
+    //The brain for the project, it manipulates all the info and requests for the chat app
     class Menu
     {
         public static void MainMenu(TcpClient comm, int menu, int received, Message message, string s)
@@ -20,10 +17,10 @@ namespace Server
 
             while (menu != -1) //while not logged out
             {
-                received = -10; //initializing the topic command to a non existing value for future use
+                received = -10; //initializing the topic command to a non existant value for future use
                 Console.WriteLine("Waiting for menu command");
                 menu = (int)bf.Deserialize(comm.GetStream()) - 1;
-                Console.WriteLine("stream received : " + menu);
+                //Console.WriteLine("stream received : " + menu);
                 
                 switch (menu)
                 {

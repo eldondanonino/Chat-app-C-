@@ -1,17 +1,10 @@
-﻿using System;
-using System.IO;
-
-//TODO : login !
-//       logout
-//       
-
-namespace Client
+﻿namespace Client
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Client Robert;
+            Client Robert; //this is our client robert :)
             Robert = new Client("127.0.0.1", 1111);
             Robert.Connect();
         }

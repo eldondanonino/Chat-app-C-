@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading;
 using Shared;
 namespace Client
 {
@@ -40,8 +38,6 @@ namespace Client
                         Console.WriteLine("With whom do you want to initiate a private chat?");
                         correspondant = Console.ReadLine();
                         bf.Serialize(comm.GetStream(), correspondant);
-                        //Thread.Sleep(500);
-                        //myPrivateMessages = (List<PrivateMessage>)bf.Deserialize(comm.GetStream());
                     }
                     else
                     {
@@ -72,16 +68,11 @@ namespace Client
                             } while (s.CompareTo("") != 0);
                             
                         }
-                        //Console.WriteLine("AAAAAAAAA " + correspondant);
-                       
-                    }
-                    
+                    } 
                 }
                 else bf.Serialize(comm.GetStream(), correspondant);
             } while (correspondant.CompareTo("") != 0);
             Console.WriteLine("Empty correspondant, going back to main menu");
         }
-
-
     }
 }

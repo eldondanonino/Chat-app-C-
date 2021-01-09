@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading;
 using Shared;
 namespace Client
 {
     class Connexion
     {
-
-        //Client connection to the server
-
         //Request to the server a creation of user
         public static bool RequestCreation(TcpClient comm)
         {
@@ -35,14 +29,13 @@ namespace Client
             do
             {
                 un = Console.ReadLine();
-                //Console.WriteLine("Read password : " + un);
                 if (un.Length > 32)
                     Console.WriteLine("Your password is too long, 32 max characters");
             } while (un.Length > 32);
 
             string pass = un;
             LoginRequest request = new LoginRequest(user, pass);
-            bf.Serialize(comm.GetStream(), request);
+            bf.Serialize(comm.GetStream(), request); //sending the pwd + un to be checked
             b = (bool)bf.Deserialize(comm.GetStream());
             return b;
         }
@@ -84,7 +77,7 @@ namespace Client
                     Console.WriteLine("Please enter your password : ");
                     loginPwd = Console.ReadLine();
                     request = new LoginRequest(loginUn, loginPwd);
-                    bf.Serialize(comm.GetStream(), request);
+                    bf.Serialize(comm.GetStream(), request); //sending un + pwd to the server
                     //Thread.Sleep(150);
                     logged = (int)bf.Deserialize(comm.GetStream());
                 } while (logged != 1);
@@ -97,9 +90,8 @@ namespace Client
         {
             Console.Clear();
             BinaryFormatter bf = new BinaryFormatter();
-            bf.Serialize(comm.GetStream(), 0);
+            bf.Serialize(comm.GetStream(), 0); //telling the server to logout
             Console.WriteLine("\nYou are now logged out of the server! \n");
-            //comm.Close(); //How to close the tcp client without nuking the server???
 
         }
 

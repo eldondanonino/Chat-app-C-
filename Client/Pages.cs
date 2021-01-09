@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Sockets;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading;
-using Shared;
 
 namespace Client
 {
     class Pages
     {
-
         public static int Firstpage(TcpClient comm)
         {
             int a = 0;
@@ -52,16 +46,17 @@ namespace Client
             } while (a < 0 || a > 2);
             return a;
         }
+        //The main page for Client, gives access to the functionnalities of the app
         public static int Mainpage(TcpClient comm)
         {
             int a = Menu();
             switch (a)
             {
                 case 1:
-                    TopicClient.TopicNavigation(comm);
+                    TopicClient.TopicNavigation(comm); //Go to topics
                     break;
                 case 2:
-                    PMClient.PMNavigation(comm);
+                    PMClient.PMNavigation(comm); //Go to private messages
                     break;
                 case 0:
                     Console.WriteLine("\nLogging out...");

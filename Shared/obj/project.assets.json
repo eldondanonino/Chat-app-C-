@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app C#\\Shared\\Shared.csproj",
+      "projectUniqueName": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app\\Chat-app-C-\\Shared\\Shared.csproj",
       "projectName": "Shared",
-      "projectPath": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app C#\\Shared\\Shared.csproj",
+      "projectPath": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app\\Chat-app-C-\\Shared\\Shared.csproj",
       "packagesPath": "C:\\Users\\Daniil\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app C#\\Shared\\obj\\",
+      "outputPath": "C:\\Users\\Daniil\\Desktop\\Projet chat app\\Chat app\\Chat-app-C-\\Shared\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Daniil\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading;
 using Shared;
 
 
@@ -135,6 +132,7 @@ namespace Server
             BinaryFormatter bf = new BinaryFormatter();
             List<Message> messages = new List<Message>();
             Message m = new Message("Dandan", "This is the first private message");
+
             messages.Add(m);
             PrivateMessage pm = new PrivateMessage("Dandan", "King Gdd", messages);
             List<PrivateMessage> myList = new List<PrivateMessage>();
@@ -143,6 +141,7 @@ namespace Server
             fs.Close();
         }
 
+        //Writing in the private message file
         public static void PMlistSetter(List<PrivateMessage> l)
         {
             Console.WriteLine("Writing on the PM file");
@@ -151,6 +150,7 @@ namespace Server
             bf.Serialize(fs, l);
             fs.Close();
         }
+
 
         public static List<PrivateMessage> PMlistGetter()
         {
@@ -165,6 +165,7 @@ namespace Server
             return myList;
         }
 
+        //creating a chat room between two users
         public static void PMcreate(string un1, string un2, TcpClient comm )
         {
             BinaryFormatter bf = new BinaryFormatter();
